@@ -1,3 +1,10 @@
+my $mpirun = "mpirun"; # fallback
+foreach my $mpi_try (qw(mpiexec mpirun)) {
+    my $test = join("",`$mpi_try -n 1 echo test`);
+    $mpirun = $mpi_try unless $! =~ /No such file or directory/;
+    last if $mpirun;
+}
+
 my $incs;
 $incs .= " -I$_" foreach @INC;
 my @newout = sort {

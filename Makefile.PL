@@ -16,21 +16,30 @@ may be on an odd system where you need to do more than pass -lmpi to
 your C compiler to build MPI applications.  If this is the case, rerun
 perl Makefile.PL with appropriate LDFLAGS= and CCFLAGS= arguments.
 
-Also, this module is very new so if you manage to get it working on one
-of the systems not listed in INSTALL I'd love to hear about it.
 ENDOFMESSAGE
 
-# do we have mpirun?
-my $test = join("",`mpirun -n 1 echo test`);
-if ($! =~ /No such file or directory/ && !$ENV{FORCE_MPIRUN}) {
-  print STDERR "Failed to run `mpirun -n 1 echo test`: $!\n";
-  print STDERR "It looks like you don't have mpi installed, re-run build with env: FORCE_MPIRUN=1 to ignore\n";
-  exit(0);
+my $mpirun = "";
+my ($libs, $ccflags) = ("", "");
+
+if ($ENV{FORCE_MPIRUN}) {
+    $mpirun = $ENV{FORCE_MPIRUN};
+}
+else {
+    foreach my $mpi_try (qw(mpiexec mpirun)) {
+	my $test = join("",`$mpi_try -n 1 echo test`);
+	$mpirun = $mpi_try unless $! =~ /No such file or directory/;
+	last if $mpirun;
+    }
+    
+    if (!$mpirun) {
+	print STDERR "Failed to run `$mpirun -n 1 echo test`: $!\n";
+	print STDERR "It looks like you don't have mpi installed, re-run build with env: FORCE_MPIRUN=1 to ignore\n";
+	exit(0);
+    }
 }
 
-my ($libs, $ccflags) = ("", "");
 # try to get this information from mpicc, should quietly fail if not
-{
+if ($^O !~ /MSWin32/) {
     my @lines = `mpicc -help`;
     foreach my $line (@lines) {
 	if ($line =~ /-link-info/) {
@@ -50,6 +59,18 @@ my ($libs, $ccflags) = ("", "");
     else {
 	print STDERR "Could not determine options for mpicc, using defaults\n";
     }
+}
+else { # windows, look for mpich2
+  my @potential = map {"C:\\$_\\MPICH2"}
+    'Program Files',
+      'Program Files (x86)';
+  foreach my $try (@potential) {
+    if (-f "$try\\bin\\mpiexec.exe") {
+      $mpirun = "$try\\bin\\mpiexec.exe";
+      $libs = qq{-L "$try\\lib\\" -lmpi};
+      $ccflags = qq{-I "$try\\include\\" -L "$try\\lib" -lmpi};
+    }
+  }
 }
 
 # Check that people have tried to define linking and compiling options...
