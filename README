@@ -18,6 +18,10 @@ SYNOPSIS
      }
      MPI_Finalise();
 
+COMPILING AND RUNNING
+    Please view the README file in the module tarball if you are having
+    trouble compiling or running this module.
+
 INTRODUCTION
     Perl is not a strongly typed language, Perl does not enforce data
     structures of a fixed size or dimensionality, Perl makes things easy.
@@ -50,6 +54,9 @@ Message Passing and Multiprocessing
 
     These processes are all copies of the *same* perl script and are invoked
     using: "mpirun -np [number of nodes] perl script.pl" .
+
+    Remember you may need to start a daemon before mpirun will work, for
+    "mpich" this is often as easy as running: "mpd &".
 
 Starting and Stopping a process
     A process must formally enter and leave the MPI pool by calling these
@@ -271,11 +278,14 @@ ISSUES
     "MPI_COMM_WORLD", "MPI_Barrier", "MPI_Comm_size", "MPI_Comm_rank" and
     "MPI_Finalize".
 
+    Please send bugs to github:
+    <https://github.com/quidity/p5-parallel-mpi-simple/issues>
+
 AUTHOR
-      Alex Gough (alex@rcon.org)
+      Alex Gough (alex@earth.li)
 
 COPYRIGHT
-      This module is copyright (c) Alex Gough, 2001.
+      This module is copyright (c) Alex Gough, 2001,2011.
 
       You may use and redistribute this software under the Artistic License as
       supplied with Perl.
