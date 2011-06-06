@@ -67,8 +67,8 @@ else { # windows, look for mpich2
   foreach my $try (@potential) {
     if (-f "$try\\bin\\mpiexec.exe") {
       $mpirun = "$try\\bin\\mpiexec.exe";
-      $libs = qq{-L "$try\\lib\\" -lmpi};
-      $ccflags = qq{-I "$try\\include\\" -L "$try\\lib" -lmpi};
+      $libs = qq{"-L$try\\lib" -lmpi};
+      $ccflags = qq{"-I$try\\include" "-L$try\\lib" -lmpi};
     }
   }
 }
