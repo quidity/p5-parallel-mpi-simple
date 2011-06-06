@@ -1,0 +1,8 @@
+INSTALL
+Changes
+Makefile.PL
+MANIFEST
+Simple.pm
+Simple.xs
+ic.pl
+test.pl
