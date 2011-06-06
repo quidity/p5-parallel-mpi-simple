@@ -2,8 +2,8 @@
 #include "perl.h"
 #include "XSUB.h"
 
-/* This file really made by Inline::C.  If you want to submit patches
- could you contact me (alex@rcon.org) and I'll send you that version */
+/* The Inline::C source for this is available in the __DATA__ section
+   of Simple.pm */
 
 #include <mpi.h> 
 #define GATHER_TAG 11001 /* used to be unlikely to upset other sends */

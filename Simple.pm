@@ -6,7 +6,7 @@ use vars qw(@ISA $VERSION);
 use Storable qw(nfreeze thaw);
 
 @ISA = qw(DynaLoader);
-$VERSION = '0.03';
+$VERSION = '0.04';
 
 bootstrap Parallel::MPI::Simple;
 
@@ -49,6 +49,11 @@ sub import {
  }
  MPI_Finalise();
 
+=head1 COMPILING AND RUNNING
+
+Please view the README file in the module tarball if you are having
+trouble compiling or running this module.
+
 =head1 INTRODUCTION
 
 Perl is not a strongly typed language, Perl does not enforce data
@@ -83,6 +88,9 @@ exits cleanly, ready to run another day.
 
 These processes are all copies of the I<same> perl script and are invoked
 using: C<mpirun -np [number of nodes] perl script.pl> .
+
+Remember you may need to start a daemon before mpirun will work, for
+C<mpich> this is often as easy as running: C<mpd &>.
 
 =head1 Starting and Stopping a process
 
@@ -519,13 +527,15 @@ use of little other than C<MPI_Init>, C<MPI_Send>, C<MPI_Recv>,
 C<MPI_COMM_WORLD>, C<MPI_Barrier>, C<MPI_Comm_size>, C<MPI_Comm_rank>
 and C<MPI_Finalize>.
 
+Please send bugs to github: L<https://github.com/quidity/p5-parallel-mpi-simple/issues>
+
 =head1 AUTHOR
 
-  Alex Gough (alex@rcon.org)
+  Alex Gough (alex@earth.li)
 
 =head1 COPYRIGHT
 
-  This module is copyright (c) Alex Gough, 2001.
+  This module is copyright (c) Alex Gough, 2001,2011.
 
   You may use and redistribute this software under the Artistic License as
   supplied with Perl.
