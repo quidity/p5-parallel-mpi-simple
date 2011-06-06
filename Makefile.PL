@@ -20,6 +20,14 @@ Also, this module is very new so if you manage to get it working on one
 of the systems not listed in INSTALL I'd love to hear about it.
 ENDOFMESSAGE
 
+# do we have mpirun?
+my $test = join("",`mpirun -n 1 echo test`);
+if ($! =~ /No such file or directory/ && !$ENV{FORCE_MPIRUN}) {
+  print STDERR "Failed to run `mpirun -n 1 echo test`: $!\n";
+  print STDERR "It looks like you don't have mpi installed, re-run build with env: FORCE_MPIRUN=1 to ignore\n";
+  exit(0);
+}
+
 my ($libs, $ccflags) = ("", "");
 # try to get this information from mpicc, should quietly fail if not
 {
