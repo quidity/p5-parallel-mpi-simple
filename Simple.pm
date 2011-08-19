@@ -295,6 +295,8 @@ destination, tag and comminicator will be delivered in the order in
 which they were sent.  No other guarantees of timeliness or ordering
 can be given.  If needed, use C<MPI_Barrier>.
 
+C<$source> can be C<MPI_ANY_SOURCE> which will do what it says.
+
 =cut
 
 sub Recv {
