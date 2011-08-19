@@ -15,7 +15,7 @@ sub import {
     my $call = (caller())[0];
     no strict 'refs';
     # subs (MPI_ function calls)
-    foreach (qw(Init Finalize COMM_WORLD Comm_rank Comm_size
+    foreach (qw(Init Finalize COMM_WORLD ANY_SOURCE Comm_rank Comm_size
 		Recv Send Barrier Bcast Gather
 		Scatter Allgather Alltoall Reduce
 		Comm_compare Comm_dup Comm_free Comm_split

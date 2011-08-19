@@ -157,6 +157,22 @@ MPI_Barrier(MPI_COMM_WORLD);
     }
 }
 
+MPI_Barrier(MPI_COMM_WORLD);
+if ($rank == 0) {
+    my $msg = "Sending from ANY";
+    MPI_Send($msg,1,0,MPI_COMM_WORLD);
+    print "ok 25 # sent from ANY\n";
+}
+else {
+    my $msg = MPI_Recv(MPI_ANY_SOURCE,0,MPI_COMM_WORLD);
+    if ($msg =~ /Sending from ANY/) {
+	print "ok 26 # receive from ANY_SOURCE";
+    }
+    else {
+	print "not ok 26 # receive from ANY_SOURCE";
+    }
+}
+
 MPI_Finalize();
 exit(0);
 

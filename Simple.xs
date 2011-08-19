@@ -100,6 +100,11 @@ SV* COMM_WORLD () {
   return newSViv((IV)MPI_COMM_WORLD);
 }
 
+/* returns SV whose IV slot is a cast pointer to the MPI_ANY_SOURCE value */
+SV* ANY_SOURCE () {
+  return newSViv((IV)MPI_ANY_SOURCE);
+}
+
 /* calls MPI_Barrier for comm */
 int Barrier (SV*comm) {
   MPI_Barrier((MPI_Comm)SvIVX(comm));
@@ -248,6 +253,9 @@ _Comm_size (comm)
 
 SV *
 COMM_WORLD ()
+
+SV *
+ANY_SOURCE ()
 
 int
 Barrier (comm)
